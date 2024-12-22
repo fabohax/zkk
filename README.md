@@ -43,7 +43,6 @@ cd zkk
 ├── privateKeyVerification.circom  # The ZKP circuit definition
 ├── privateKeyVerification_js/     # Compiled WASM file and metadata
 ├── zkk.js                         # Main script for ZKP generation
-├── generatePrivateKey.js          # Utility for generating Bitcoin private keys
 ├── README.md                      # Project documentation
 └── package.json                   # Node.js project configuration
 ```
