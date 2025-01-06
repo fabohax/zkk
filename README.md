@@ -1,4 +1,4 @@
-# ZKK: Zero-Knowledge Key
+# 🔑 ZKK: Zero-Knowledge Key
 
 ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proofs (ZKP)** to validate a Bitcoin private key without exposing its value. The project generates a ZKP proving that a given private key corresponds to a derived public key and encodes the proof in a QR code for easy sharing and validation.
 
