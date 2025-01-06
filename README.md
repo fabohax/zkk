@@ -38,7 +38,7 @@ cd zkk
 ## Project Structure
 
 ```
-zkk_project/
+zkk/
 ├── bin/
 │   └── cli.py                 # CLI script for ZKP generation and verification
 ├── src/
