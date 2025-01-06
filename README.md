@@ -121,5 +121,5 @@ Contributions are welcome! Feel free to submit issues or pull requests.
 
 ## License
 
-Open Source Code made with ❤️
+Open Source Code Made With ❤️
 
