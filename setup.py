@@ -12,7 +12,6 @@ setup(
     install_requires=[
         "bitcoinlib==0.6.3",
         "qrcode==7.4",
-        "binary-fields==1.0.0",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
