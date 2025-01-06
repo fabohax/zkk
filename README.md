@@ -13,7 +13,12 @@ ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proo
 ## Prerequisites
 
 1. **Python 3.8 or later**: Ensure you have Python installed.
-2. **Dependencies**:
+2. **Environment Setup**: Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+3. **Dependencies**:
    - `bitcoinlib`: For Bitcoin key derivation.
    - `qrcode`: For QR code generation.
 
@@ -118,5 +123,5 @@ Contributions are welcome! Feel free to submit issues or pull requests.
 
 This project is licensed under the MIT License.
 
-Made with ❤️ 
+Made with ❤️
 
