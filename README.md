@@ -4,28 +4,23 @@ ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proo
 
 ## Features
 
-- Validate Bitcoin private keys (in WIF format).
+- Validate Bitcoin private keys.
 - Derive public keys and addresses from private keys.
-- Generate Zero-Knowledge Proofs (ZKP) using `snarkjs`.
+- Generate Zero-Knowledge Proofs (ZKP) using `binius`.
 - Encode ZKP into a QR code for secure sharing.
 - Display and save QR codes as SVG images.
 
 ## Prerequisites
 
-1. **Node.js**: Ensure you have Node.js installed (version 14 or later).
-2. **Circom**: Install Circom for circuit compilation.
-3. **snarkjs**: Install `snarkjs` for ZKP setup and proof generation.
-4. **npm packages**:
-   - `bitcoinjs-lib`
-   - `commander`
-   - `qrcode`
-   - `snarkjs`
-   - `bip39` (if mnemonic support is needed)
-   - `wif`
+1. **Python 3.8 or later**: Ensure you have Python installed.
+2. **Dependencies**:
+   - `bitcoinlib`: For Bitcoin key derivation.
+   - `qrcode`: For QR code generation.
+   - `binius`: For ZKP generation and verification.
 
 Install dependencies using:
 ```bash
-npm install bitcoinjs-lib commander qrcode snarkjs wif
+pip install bitcoinlib qrcode binius
 ```
 
 ## Installation
@@ -39,55 +34,49 @@ cd zkk
 ## Project Structure
 
 ```
-.
-├── privateKeyVerification.circom  # The ZKP circuit definition
-├── privateKeyVerification_js/     # Compiled WASM file and metadata
-├── zkk.js                         # Main script for ZKP generation
-├── README.md                      # Project documentation
-└── package.json                   # Node.js project configuration
+zkk_project/
+├── bin/
+│   └── cli.py                 # CLI script for ZKP generation and verification
+├── src/
+│   ├── binius/                # Binius proof-related code
+│   │   ├── proof.py           # Proof generation and verification logic
+│   │   ├── binary_fields.py   # Binary field operations
+│   │   ├── utils.py           # Utility functions for evaluation
+│   │   └── merkle.py          # Merkle tree implementation
+│   ├── bitcoin/
+│   │   └── key_utils.py       # Functions for key derivation and validation
+│   └── qr/
+│       └── generate_qr.py     # QR code generation utilities
+├── tests/                     # Unit and integration tests
+├── examples/                  # Example scripts for usage
+├── README.md                  # Project documentation
+└── requirements.txt           # Python dependencies
 ```
 
 ## How It Works
 
 1. **Validate and Derive Public Key**:
-   - The script validates a given Bitcoin private key (in WIF format).
+   - The script validates a given Bitcoin private key.
    - It derives the corresponding public key and Bitcoin address.
 
 2. **Generate ZKP**:
-   - Using `snarkjs`, the private key is input into a Circom circuit (`privateKeyVerification.circom`).
-   - The circuit verifies that the private key corresponds to the public key.
+   - Using `binius`, the private key is input as a binary evaluation.
+   - The proof is generated based on a securely chosen evaluation point.
    - The output is a ZKP that can be validated without exposing the private key.
 
 3. **Encode in QR Code**:
    - The generated ZKP is serialized and encoded into a QR code for sharing.
-   - The QR code is displayed in the terminal and saved as an SVG image.
+   - The QR code is saved as an SVG image.
 
 ## Usage
 
-### 1. Compile the Circuit
-Ensure `privateKeyVerification.circom` is correctly defined. Then compile:
+### 1. Run the Script
+Generate a proof and QR code for a given Bitcoin private key:
 ```bash
-circom privateKeyVerification.circom --r1cs --wasm --sym
+python bin/cli.py <BitcoinPrivateKey>
 ```
 
-### 2. Perform Trusted Setup
-Run the trusted setup for zk-SNARKs:
-```bash
-snarkjs groth16 setup privateKeyVerification.r1cs pot12_final.ptau circuit_final.zkey
-```
-Export the verification key:
-```bash
-snarkjs zkey export verificationkey circuit_final.zkey verification_key.json
-```
-
-### 3. Generate ZKP
-Run the script to generate the ZKP and encode it in a QR code:
-```bash
-node zkk.js <BitcoinPrivateKeyWIF>
-```
-
-## Example Output
-
+### 2. Example Output
 **Console Output:**
 ```
 Validating and deriving public key...
@@ -116,6 +105,12 @@ QR Code saved as zkp_qr.svg
 █████████████████████████████
 ```
 
+### 3. Verify the Proof
+Run the verification script to confirm proof validity:
+```bash
+python bin/cli.py --verify <path_to_proof_file>
+```
+
 ## Contributing
 
 Contributions are welcome! Feel free to submit issues or pull requests.
@@ -124,4 +119,5 @@ Contributions are welcome! Feel free to submit issues or pull requests.
 
 This project is licensed under the MIT License.
 
-Made with ❤️ by fabohax
+Made with ❤️ 
+
