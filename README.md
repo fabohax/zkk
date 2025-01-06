@@ -20,7 +20,7 @@ ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proo
 
 Install dependencies using:
 ```bash
-pip install bitcoinlib qrcode binius
+pip install bitcoinlib qrcode binary-fields
 ```
 
 ## Installation
