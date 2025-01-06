@@ -16,7 +16,6 @@ ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proo
 2. **Dependencies**:
    - `bitcoinlib`: For Bitcoin key derivation.
    - `qrcode`: For QR code generation.
-   - `binius`: For ZKP generation and verification.
 
 Install dependencies using:
 ```bash
