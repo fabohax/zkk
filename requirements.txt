@@ -1,2 +1,3 @@
 bitcoinlib==0.6.3
+python-snarks==0.0.3
 qrcode==7.4

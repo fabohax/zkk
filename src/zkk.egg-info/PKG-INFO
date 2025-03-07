@@ -1,0 +1,22 @@
+Metadata-Version: 2.2
+Name: zkk
+Version: 1.0.0
+Summary: Zero-Knowledge Key (ZKK): A Python-based implementation of zero-knowledge proofs for Bitcoin private key validation using zk-SNARKs.
+Home-page: https://github.com/fabohax/zkk
+Author: fabohax
+Author-email: 40230@pm.me
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Requires-Dist: bit
+Requires-Dist: qrcode==7.4
+Requires-Dist: python-snarks==0.0.3
+Requires-Dist: numpy>=1.21.4
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

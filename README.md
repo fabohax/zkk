@@ -1,3 +1,5 @@
+[WORK IN PROGRESS]
+
 # 🔑 ZKK: Zero-Knowledge Key
 
 ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proofs (ZKP)** to validate a Bitcoin private key without exposing its value. The project generates a ZKP proving that a given private key corresponds to a derived public key and encodes the proof in a QR code for easy sharing and validation.
@@ -6,7 +8,7 @@ ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proo
 
 - Validate Bitcoin private keys.
 - Derive public keys and addresses from private keys.
-- Generate Zero-Knowledge Proofs (ZKP) using `binius`.
+- Generate Zero-Knowledge Proofs (ZKP) using `zk-SNARKs`.
 - Encode ZKP into a QR code for secure sharing.
 - Display and save QR codes as SVG images.
 
@@ -21,10 +23,11 @@ ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proo
 3. **Dependencies**:
    - `bitcoinlib`: For Bitcoin key derivation.
    - `qrcode`: For QR code generation.
+   - `snarkjs`: For zk-SNARK proof generation.
 
 Install dependencies using:
 ```bash
-pip install bitcoinlib qrcode
+pip install bitcoinlib qrcode snarkjs
 ```
 
 ## Installation
@@ -42,9 +45,9 @@ zkk/
 ├── bin/
 │   └── cli.py                 # CLI script for ZKP generation and verification
 ├── src/
-│   ├── binius/                # Binius proof-related code
+│   ├── snarks/                # zk-SNARK proof-related code
 │   │   ├── proof.py           # Proof generation and verification logic
-│   │   ├── binary_fields.py   # Binary field operations
+│   │   ├── constraints.circom # Circom circuit for zk-SNARKs
 │   │   ├── utils.py           # Utility functions for evaluation
 │   │   └── merkle.py          # Merkle tree implementation
 │   ├── bitcoin/
@@ -64,8 +67,8 @@ zkk/
    - It derives the corresponding public key and Bitcoin address.
 
 2. **Generate ZKP**:
-   - Using `binius`, the private key is input as a binary evaluation.
-   - The proof is generated based on a securely chosen evaluation point.
+   - Using `zk-SNARKs`, the private key is input into a Circom circuit.
+   - The proof is generated via `snarkjs` based on the circuit constraints.
    - The output is a ZKP that can be validated without exposing the private key.
 
 3. **Encode in QR Code**:

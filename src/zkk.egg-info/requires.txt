@@ -1,0 +1,4 @@
+bit
+qrcode==7.4
+python-snarks==0.0.3
+numpy>=1.21.4

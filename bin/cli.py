@@ -1,65 +1,71 @@
 import sys
 import os
 import argparse
-from bitcoin.key_utils import derive_public_key, derive_address
-from binius.proof import packed_binius_proof, verify_packed_binius_proof
-from binius.binary_fields import BinaryFieldElement
-from qr.generate_qr import generate_qr_code
+import json
+import qrcode
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../src"))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Function to generate a proof and QR code
-def generate_proof(private_key_raw):
-    print("Deriving public key and address...")
-    public_key = derive_public_key(private_key_raw)
-    address = derive_address(private_key_raw)
+from src.bitcoin.key_utils import validate_private_key_raw, derive_public_key, derive_address
+from src.snarks.proof import generate_zk_proof, verify_zk_proof
 
+def generate_proof(private_key):
+    print("Validating and deriving public key and address...")
+    public_key = derive_public_key(private_key)
+    address = derive_address(private_key)
     print(f"Public Key: {public_key}")
     print(f"Address: {address}")
 
-    # Convert the raw private key to binary evaluations
-    evaluations = [BinaryFieldElement(int(bit)) for bit in bin(int(private_key_raw, 16))[2:]]
+    print("Generating ZKP...")
+    proof = generate_zk_proof(private_key, public_key)
+    proof_data = {
+        "proof": proof,
+        "public_key": public_key,
+        "address": address
+    }
+    
+    qr = qrcode.QRCode()
+    qr.add_data(json.dumps(proof_data))
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    img.save(f"zkp_qr_{public_key[:8]}.svg")
+    print("ZKP Generated Successfully.")
+    print(f"QR Code saved as zkp_qr_{public_key[:8]}.svg")
 
-    # Generate a dummy evaluation point (replace with a secure point in production)
-    evaluation_point = [BinaryFieldElement(0), BinaryFieldElement(1)]
-
-    print("Generating Zero-Knowledge Proof...")
-    proof = packed_binius_proof(evaluations, evaluation_point)
-
-    print("Proof generated successfully.")
-    generate_qr_code(str(proof), "zkp_qr.svg")
-    print("QR Code saved as zkp_qr.svg")
-
-# Function to verify a proof
-def verify_proof(proof):
-    print("Verifying proof...")
-    is_valid = verify_packed_binius_proof(proof)
+def verify_proof(proof_path):
+    with open(proof_path, "r") as f:
+        proof_data = json.load(f)
+    
+    print("Verifying ZKP...")
+    is_valid = verify_zk_proof(proof_data["proof"], proof_data["public_key"])
+    
     if is_valid:
-        print("Proof verification successful.")
+        print("Proof is valid!")
     else:
         print("Proof verification failed.")
 
-# Main CLI function
 def main():
-    parser = argparse.ArgumentParser(description="ZKK: Zero-Knowledge Key CLI")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    parser = argparse.ArgumentParser(description="ZKK CLI Tool")
+    subparsers = parser.add_subparsers(dest="command")
 
-    # Subcommand: Generate Proof
-    generate_parser = subparsers.add_parser("generate", help="Generate a Zero-Knowledge Proof and QR code")
-    generate_parser.add_argument("private_key_raw", help="Raw Bitcoin private key in hexadecimal format")
+    gen_parser = subparsers.add_parser("generate", help="Generate a zk-SNARK proof and QR code")
+    gen_parser.add_argument("private_key", type=str, help="Bitcoin private key")
 
-    # Subcommand: Verify Proof
-    verify_parser = subparsers.add_parser("verify", help="Verify a Zero-Knowledge Proof")
-    verify_parser.add_argument("proof_file", help="Path to the proof file to verify")
+    verify_parser = subparsers.add_parser("verify", help="Verify a zk-SNARK proof")
+    verify_parser.add_argument("proof_path", type=str, help="Path to the proof JSON file")
 
     args = parser.parse_args()
 
     if args.command == "generate":
-        generate_proof(args.private_key_raw)
+        try:
+            validate_private_key_raw(args.private_key)
+            generate_proof(args.private_key)
+        except ValueError as e:
+            print(f"Error: {e}")
     elif args.command == "verify":
-        with open(args.proof_file, "r") as f:
-            proof = eval(f.read())  # Replace eval with safer deserialization in production
-        verify_proof(proof)
+        verify_proof(args.proof_path)
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()
