@@ -1,5 +1,3 @@
-[WORK IN PROGRESS]
-
 # 🔑 ZKK: Zero-Knowledge Key
 
 ZKK is a proof-of-concept project demonstrating the use of **Zero-Knowledge Proofs (ZKP)** to validate a Bitcoin private key without exposing its value. The project generates a ZKP proving that a given private key corresponds to a derived public key and encodes the proof in a QR code for easy sharing and validation.
@@ -37,6 +35,17 @@ Clone the repository and navigate to the project directory:
 git clone https://github.com/fabohax/zkk.git
 cd zkk
 ```
+
+## Use Cases
+
+ZKK can be used in scenarios where you want to prove knowledge or ownership of a Bitcoin private key without revealing the key itself. Example use cases include:
+
+- **Anonymous Authentication:** Prove you control a Bitcoin address (or cryptographic identity) without revealing your public key or address. Useful for privacy-preserving logins or gated access.
+- **Private Ownership Proof:** Show you own a specific Bitcoin address to a third party (e.g., for KYC, asset verification, or escrow) without exposing your private key or even your public key.
+- **Selective Disclosure:** Prove you control one address from a set (e.g., “I own one of these addresses”) without revealing which one, useful for anonymous group membership or voting.
+- **On-chain Privacy Protocols:** Integrate with smart contracts or privacy-focused blockchains to prove transaction validity or ownership without leaking sensitive information.
+- **Credential Systems:** Use as a building block for decentralized identity, where you prove attributes (like age, membership, or asset ownership) without revealing your identity.
+- **Secure Messaging or Signing:** Prove you can decrypt or sign messages without revealing your key, enabling secure, private communication channels.
 
 ## Project Structure
 
