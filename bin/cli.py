@@ -24,10 +24,11 @@ def generate_proof(private_key):
         "address": address
     }
     
+    from qrcode.image.svg import SvgPathImage
     qr = qrcode.QRCode()
     qr.add_data(json.dumps(proof_data))
     qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white")
+    img = qr.make_image(image_factory=SvgPathImage)
     img.save(f"zkp_qr_{public_key[:8]}.svg")
     print("ZKP Generated Successfully.")
     print(f"QR Code saved as zkp_qr_{public_key[:8]}.svg")
