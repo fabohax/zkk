@@ -89,7 +89,7 @@ zkk/
 ### 1. Run the Script
 Generate a proof and QR code for a given Bitcoin private key:
 ```bash
-python bin/cli.py <BitcoinPrivateKey>
+python bin/cli.py generate <BitcoinPrivateKey>
 ```
 
 ### 2. Example Output
@@ -135,3 +135,8 @@ Contributions are welcome! Feel free to submit issues or pull requests.
 
 Open Source Code Made With ❤️
 
+Consider to donate to 
+
+```bash
+bc1p0saw6z028y7h6eag3w6hx5an6mk5ta8qk7wx2d3gtqtrty243uvqvjzvew
+```

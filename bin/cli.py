@@ -30,8 +30,12 @@ def generate_proof(private_key):
     qr.make(fit=True)
     img = qr.make_image(image_factory=SvgPathImage)
     img.save(f"zkp_qr_{public_key[:8]}.svg")
+    # Save proof data to proof.json
+    with open("proof.json", "w") as f:
+        json.dump(proof_data, f, indent=2)
     print("ZKP Generated Successfully.")
     print(f"QR Code saved as zkp_qr_{public_key[:8]}.svg")
+    print("Proof data saved to proof.json.")
 
 def verify_proof(proof_path):
     with open(proof_path, "r") as f:
